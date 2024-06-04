@@ -69,15 +69,21 @@ export const createTicket = async (req, res) => {
                 //Finalizar compra
                 const totalPrice = cart.products.reduce((acc, product) => (acc.id_prod.price * a.quantity) + (product.id_prod.price * product.quantity), 0)
 
+                //Si EL USER ES ROLE PREMIUM TIENE UN 10% DE DESCUENTO, HACERLO ACA Y 
+                //AGREGARLO AL TOTAL(AGREGAR EL ROLE EN USER MODEL O DONDE CORRESPONDA)
+                if (req.user.role == 'Premium') {
+                    totalPrice * 0.9
+                }
+
                 //const aux = [...cart.products]
                 const newTicket = await ticketModel.create({
                     code: crypto.randomUUID(),
                     purchaser: req.user.email,
                     amount: totalPrice,
+
+
                     products: cart.products,
                     //products: aux
-
-
                 })
 
                 //Descontar stock de cada uno de los productos

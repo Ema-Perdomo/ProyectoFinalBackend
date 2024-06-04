@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import passport from 'passport';
-import { createCart, getCart, insertProductCart, createTicket } from '../controllers/cartController';
+import { createCart, getCart, insertProductCart, createTicket } from '../controllers/cartController.js';
 
 const cartRouter = Router()
 

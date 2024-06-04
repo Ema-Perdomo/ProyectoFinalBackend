@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import passport from 'passport';
-import {login,register,sessionGithub,logout,testJWT} from '../controllers/sessionController.js'
+import {login,register,sessionGithub,logout,testJWT, sendEmailPassword, changePassword} from '../controllers/sessionController.js'
 
 
 const sessionRouter = Router()
@@ -13,6 +13,10 @@ sessionRouter.post('/register', passport.authenticate('register'), register)
 sessionRouter.get('/github', passport.authenticate('github', { scope: ['user: email'] }), async (req, res) => { }) //scope: lo que voy a devolver
 
 sessionRouter.get('/githubSession', passport.authenticate('github'), sessionGithub)
+
+sessionRouter.post('/sendEmailPassword', sendEmailPassword)
+
+sessionRouter.post( "reset-password/:token", changePassword)
 
     //GOOGLE AUTH (si quiero hacerlo)
 // app.get('/auth/google',
