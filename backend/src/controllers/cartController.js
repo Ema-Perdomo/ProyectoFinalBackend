@@ -24,7 +24,7 @@ export const createCart = async (req, res) => {
 }
 export const insertProductCart = async (req, res) => {
     try {
-        if (req.user.role == 'Admin') {
+        if (req.user.role == 'Admin') { //TODO:Si el user es admin puede agregar productos al carrito, no tiene sentido no poder agregar productos a tu cart???
             const cartId = req.params.cid
             const idProducto = req.params.pid
             const { quantity } = req.body
@@ -48,7 +48,7 @@ export const insertProductCart = async (req, res) => {
             res.status(403).send('Usuario no autorizado')
         }
     } catch (error) {
-        res.status(500).send(`Error interno del servidor al crear producto: ${error}`)
+        res.status(500).send(`Error interno del servidor al crear/agregar producto: ${error}`) //Agrega o crea?
     }
 }
 
@@ -112,7 +112,7 @@ export const createTicket = async (req, res) => {
                 await cartModel.findByIdAndUpdate(cartId, {
                     products: cart.products
                 })
-                res.status(200).send(`Productos sin stock suficiente: ${prodSinStock}`)
+                res.status(400).send(`Productos sin stock suficiente: ${prodSinStock}`)
             }
 
         } else {
