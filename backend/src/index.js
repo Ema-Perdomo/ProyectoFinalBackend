@@ -4,6 +4,8 @@ import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import passport from 'passport';
 import cookieParser from 'cookie-parser';
+import swaggerJsdoc from 'swagger-jsdoc';
+import swaggerUiExpress from 'swagger-ui-express';
 import messageModel from './models/messages.js';
 import indexRouter from './routes/indexRouter.js';
 import initializePassport from './config/passport/passport.js';
@@ -30,6 +32,22 @@ const io = new Server(server) //En io declaro un nuevo servidor de socket.io
 mongoose.connect("mongodb+srv://emaperdomo00:coderhouse@cluster0.al9oyst.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
     .then(() => console.log("Conectado a la base de datos"))
     .catch(error => console.log(error))
+    
+//Swagger, documentación de la API
+const swaggerOptions = {
+    definition: {
+        openapi: "3.1.0",
+        info: {
+            title: "Proyecto Final curso Backend Development - Coderhouse",
+            description: "API de un e-commerce",
+        }
+    },
+    apis: [`${__dirname}/docs/**/*.yaml`]
+}
+// Conexion de Swagger a servidor Express
+const specs = swaggerJsdoc(swaggerOptions);
+app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
+
 
 //--------------------------------------------------------------------------------
 //----------------- Middlewares (comunicación)--------------------------------
@@ -52,8 +70,8 @@ app.use(cookieParser())                     //Permite trabajar con cookies
 
 //Passport
 initializePassport()
-app.use(passport.initialize())  //Delego toda la configuración de inicializar y registrar la session del user a passport
-app.use(passport.session()) 
+app.use(passport.initialize())              //Delego toda la configuración de inicializar y registrar la session del user a passport
+app.use(passport.session())
 //--------------------------------------------------------------------------------
 //------------------------------------Rutas---------------------------------------
 //--------------------------------------------------------------------------------
@@ -89,14 +107,14 @@ app.post('/login', (req, res) => {
 
     if (email === "admin@admin.com" && password === "admin") {
         //Guardo en session el email y password
-        req.session.email =  email 
-        req.session.password =  password 
+        req.session.email = email
+        req.session.password = password
 
         res.send('Login exitoso')
-    }else{
+    } else {
         res.send('Login incorrecto')
     }
-    
+
 })
 
 
