@@ -31,3 +31,7 @@ export const sendDocuments = async (req, res) => {
         res.status(500).send("Error al enviar documento:", error)
     }
 }
+
+export const imagesProds = async (req, res) => {
+    
+}
