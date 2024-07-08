@@ -30,6 +30,13 @@ const userSchema = new Schema({
     cartId: {
         type: Schema.Types.ObjectId,
         ref: 'carts'
+    },
+    documents: {
+        type: Object,
+        default: []
+    },
+    lastConnection: {
+        type: Date //Lo consulto con el lastConnection y modifico cada vez que logueo y deslogueo con el datetime.now()
     }
 })
 //Previo a guardar en database el user creado, voy a ejecutar un async

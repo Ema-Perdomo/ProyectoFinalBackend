@@ -1,6 +1,6 @@
-import cartModel from '../models/cartModel.js';
-import productModel from '../models/productModel.js';
-import ticketModel from '../models/ticketModel.js';
+import cartModel from '../models/cart.js';
+import productModel from '../models/products.js';
+import ticketModel from '../models/ticket.js';
 
 
 export const getCart = async (req, res) => {
@@ -48,7 +48,7 @@ export const insertProductCart = async (req, res) => {
             res.status(403).send('Usuario no autorizado')
         }
     } catch (error) {
-        res.status(500).send(`Error interno del servidor al crear/agregar producto: ${error}`) //Agrega o crea?
+        res.status(500).send(`Error interno del servidor al agregar producto: ${error}`) 
     }
 }
 

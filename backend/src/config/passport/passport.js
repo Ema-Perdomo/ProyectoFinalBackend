@@ -42,8 +42,11 @@ const initializePassport = () => {
     passport.use('login', new localStrategy({ usernameField: 'email' }, async (username, password, done) => {
 
         try {
-            const user = await userModel.findOne({ email: username }).lean()
+            const user = await userModel.findOne({ email: username })//.lean() lean rompe, no se para que lo habiamos puesto
             if (user && validatePassword(password, user.password)) {
+
+                //TODO: ajustar date para que muestre el correcto de gun nuestra zona horaria o segun la zona del usser
+                user.lastConnection = new Date() //Cuando  me logueo correctamente actualizo la fecha de conexion
 
                 return done(null, user)
             } else {
@@ -83,10 +86,10 @@ const initializePassport = () => {
     }
     ))
 
-    passport.use('jwt',strategyJWT) //La definicion esta en jwtStrategy.js
+    passport.use('jwt', strategyJWT) //La definicion esta en jwtStrategy.js
 
 
-        //Auth con Google
+    //Auth con Google
     // var GoogleStrategy = require('passport-google-oauth20').Strategy;
 
     // passport.use(new GoogleStrategy({
