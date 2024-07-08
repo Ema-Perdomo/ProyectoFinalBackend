@@ -20,7 +20,7 @@ const storageProds = multer.diskStorage({
 })
 const storageDocs = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, `${__dirname}/public/img/docs`)
+        cb(null, `${__dirname}/docs`)
     },
     filename: (req, file, cb) => {
         cb(null, `${Date.now()}${file.originalname}`)
